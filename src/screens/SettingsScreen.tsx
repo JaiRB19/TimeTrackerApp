@@ -1,63 +1,177 @@
-// src/screens/SettingsScreen.tsx
 import React from 'react';
-import { View, Text, StyleSheet, Switch } from 'react-native';
-import { COLORS, SPACING } from '../constants/theme';
+import { View, Text, StyleSheet, Switch, ScrollView, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { COLORS, SPACING, RADIUS, SHADOWS } from '../constants/theme';
 import { useSettings } from '../hooks/useSettings';
 
+interface SettingRowProps {
+  icon: keyof typeof Ionicons.glyphMap;
+  iconColor: string;
+  label: string;
+  description: string;
+  value: boolean;
+  onToggle: (value: boolean) => void;
+}
+
+const SettingRow = ({ icon, iconColor, label, description, value, onToggle }: SettingRowProps) => (
+  <View style={settingStyles.row}>
+    <View style={[settingStyles.iconBox, { backgroundColor: iconColor + '18' }]}>
+      <Ionicons name={icon} size={20} color={iconColor} />
+    </View>
+    <View style={settingStyles.textBlock}>
+      <Text style={settingStyles.label}>{label}</Text>
+      <Text style={settingStyles.description}>{description}</Text>
+    </View>
+    <Switch
+      trackColor={{ false: COLORS.border, true: COLORS.primary + '55' }}
+      thumbColor={value ? COLORS.primary : COLORS.surface}
+      ios_backgroundColor={COLORS.border}
+      value={value}
+      onValueChange={onToggle}
+    />
+  </View>
+);
+
+const settingStyles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: SPACING.m,
+    gap: SPACING.m,
+  },
+  iconBox: {
+    width: 40,
+    height: 40,
+    borderRadius: RADIUS.m,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textBlock: { flex: 1 },
+  label: { color: COLORS.text, fontSize: 15, fontWeight: '600', marginBottom: 2 },
+  description: { color: COLORS.textSecondary, fontSize: 12, lineHeight: 17 },
+});
+
 export default function SettingsScreen() {
-  // Consumimos el estado global
   const { keepAwake, toggleKeepAwake, showMs, toggleShowMs } = useSettings();
+  const insets = useSafeAreaInsets();
+  
+  const isIOS = Platform.OS === 'ios';
+  const dockPadding = isIOS 
+    ? Math.max(insets.bottom - 10, 10) 
+    : Math.max(insets.bottom, 12) + 8;
+  const dockClearance = dockPadding + 88; // 72px capsula + 16px extra margen
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[styles.content, { paddingBottom: dockClearance }]}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* ── HEADER ─────────────────────────────────────────── */}
       <View style={styles.header}>
-        <Text style={styles.title}>SETTINGS</Text>
+        <Text style={styles.title}>Ajustes</Text>
         <Text style={styles.subtitle}>Configura tu experiencia</Text>
       </View>
 
+      {/* ── SECCIÓN: DISPLAY ─────────────────────────────── */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>GENERAL</Text>
-        
-        <View style={styles.settingRow}>
-          <View style={styles.settingTextContainer}>
-            <Text style={styles.settingLabel}>Mantener pantalla encendida</Text>
-            <Text style={styles.settingDescription}>Evita que el dispositivo se bloquee durante sesiones activas</Text>
-          </View>
-          <Switch
-            trackColor={{ false: COLORS.border, true: COLORS.primary }}
-            thumbColor={COLORS.surface}
+        <Text style={styles.sectionLabel}>Pantalla</Text>
+        <View style={[styles.card, SHADOWS.card]}>
+          <SettingRow
+            icon="sunny-outline"
+            iconColor={COLORS.primary}
+            label="Mantener pantalla encendida"
+            description="Evita el bloqueo automático durante sesiones activas"
             value={keepAwake}
-            onValueChange={toggleKeepAwake} // Llama a la función global
+            onToggle={toggleKeepAwake}
           />
-        </View>
-
-        <View style={styles.settingRow}>
-          <View style={styles.settingTextContainer}>
-            <Text style={styles.settingLabel}>Mostrar milisegundos</Text>
-            <Text style={styles.settingDescription}>Muestra las centésimas de segundo en el reloj principal</Text>
-          </View>
-          <Switch
-            trackColor={{ false: COLORS.border, true: COLORS.primary }}
-            thumbColor={COLORS.surface}
+          <View style={styles.divider} />
+          <SettingRow
+            icon="timer-outline"
+            iconColor={COLORS.danger}
+            label="Mostrar milisegundos"
+            description="Muestra las centésimas de segundo en el reloj principal"
             value={showMs}
-            onValueChange={toggleShowMs} // Llama a la función global
+            onToggle={toggleShowMs}
           />
         </View>
       </View>
-    </View>
+
+      {/* ── SECCIÓN: APP ─────────────────────────────────── */}
+      <View style={styles.section}>
+        <Text style={styles.sectionLabel}>Acerca de</Text>
+        <View style={[styles.card, SHADOWS.card]}>
+          <View style={styles.infoRow}>
+            <Ionicons name="code-slash-outline" size={18} color={COLORS.textTertiary} />
+            <Text style={styles.infoText}>Version 1.0.0</Text>
+          </View>
+          <View style={styles.divider} />
+          <View style={styles.infoRow}>
+            <Ionicons name="person-outline" size={18} color={COLORS.textTertiary} />
+            <Text style={styles.infoText}>Desarrollado por Jai</Text>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
-// ... Mantén exactamente los mismos estilos que ya tenías en la parte de abajo
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: COLORS.background, padding: SPACING.l },
-  header: { marginTop: SPACING.xl * 2, marginBottom: SPACING.xl },
-  title: { color: COLORS.primary, fontSize: 20, fontWeight: '800', letterSpacing: 1.5 },
-  subtitle: { color: COLORS.textSecondary, fontSize: 14, textTransform: 'uppercase', marginTop: 4 },
-  section: { marginBottom: SPACING.xl },
-  sectionTitle: { color: COLORS.textSecondary, fontSize: 12, fontWeight: '700', letterSpacing: 1, marginBottom: SPACING.m },
-  settingRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: SPACING.m, borderBottomWidth: 1, borderBottomColor: COLORS.border },
-  settingTextContainer: { flex: 1, paddingRight: SPACING.m },
-  settingLabel: { color: COLORS.text, fontSize: 16, fontWeight: '600', marginBottom: 4 },
-  settingDescription: { color: COLORS.textSecondary, fontSize: 12, lineHeight: 16 },
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  content: {
+    paddingHorizontal: SPACING.l,
+    paddingBottom: SPACING.xl,
+  },
+  header: {
+    marginTop: SPACING.xl * 1.5,
+    marginBottom: SPACING.l,
+  },
+  title: {
+    color: COLORS.text,
+    fontSize: 26,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+  },
+  subtitle: {
+    color: COLORS.textSecondary,
+    fontSize: 14,
+    fontWeight: '500',
+    marginTop: 2,
+  },
+  section: { marginBottom: SPACING.l },
+  sectionLabel: {
+    color: COLORS.textTertiary,
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+    marginBottom: SPACING.s,
+    paddingLeft: SPACING.s,
+  },
+  card: {
+    backgroundColor: COLORS.surface,
+    borderRadius: RADIUS.l,
+    paddingHorizontal: SPACING.m,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: COLORS.borderSubtle,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.m,
+    paddingVertical: SPACING.m,
+  },
+  infoText: {
+    color: COLORS.textSecondary,
+    fontSize: 15,
+    fontWeight: '500',
+  },
 });

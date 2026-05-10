@@ -3,6 +3,7 @@ import { View, ActivityIndicator, StyleSheet, Platform, LogBox } from 'react-nat
 import { StatusBar } from 'expo-status-bar';
 import * as Notifications from 'expo-notifications';
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigator from './src/navigation/AppNavigator';
 import { SettingsProvider, useSettings } from './src/hooks/useSettings';
 import { COLORS } from './src/constants/theme';
@@ -57,14 +58,16 @@ export default function App() {
   }, []);
 
   return (
-    <SettingsProvider>
-      <HistoryProvider>
-        <NavigationContainer>
-          <StatusBar style="dark" />
-          <RootNavigation />
-        </NavigationContainer>
-      </HistoryProvider>
-    </SettingsProvider>
+    <SafeAreaProvider>
+      <SettingsProvider>
+        <HistoryProvider>
+          <NavigationContainer>
+            <StatusBar style="dark" />
+            <RootNavigation />
+          </NavigationContainer>
+        </HistoryProvider>
+      </SettingsProvider>
+    </SafeAreaProvider>
   );
 }
 

@@ -121,13 +121,14 @@ export const useTimer = () => {
   const reset = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     setIsRunning(false);
-    setTime(mode === 'timer' ? initialTime : 0);
+    setTime(0);
+    setInitialTime(0);
     setMarks([]);
     accumulatedTimeRef.current = 0;
     startTimeRef.current = 0;
     markIdCounterRef.current = 1;
     cancelNotification();
-  }, [mode, initialTime]);
+  }, []);
 
   // Cambiar entre cronómetro y temporizador
   const switchMode = useCallback((newMode: TimerMode) => {
@@ -202,6 +203,7 @@ export const useTimer = () => {
   return {
     time,
     elapsedTime,
+    initialTime,
     mode,
     isRunning,
     marks,
