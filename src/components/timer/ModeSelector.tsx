@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS, SHADOWS } from '../../constants/theme';
 import { TimerMode } from '../../hooks/useTimer';
@@ -8,7 +8,7 @@ interface Props {
   onModeChange: (mode: TimerMode) => void;
 }
 
-export const ModeSelector = ({ mode, onModeChange }: Props) => {
+export const ModeSelector = memo(({ mode, onModeChange }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity 
@@ -25,7 +25,7 @@ export const ModeSelector = ({ mode, onModeChange }: Props) => {
       </TouchableOpacity>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: { flexDirection: 'row', backgroundColor: COLORS.border, borderRadius: 12, padding: 4 },

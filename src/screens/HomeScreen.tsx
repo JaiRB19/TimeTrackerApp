@@ -13,7 +13,7 @@ import { useHistory } from '../hooks/useHistory';
 
 export default function HomeScreen() {
   const { 
-    time, isRunning, marks, mode, switchMode, 
+    time, elapsedTime, isRunning, marks, mode, switchMode, 
     setCountdownTime, addMark, toggle, reset 
   } = useTimer();
 
@@ -78,7 +78,7 @@ export default function HomeScreen() {
             <TouchableOpacity 
               style={styles.saveButton} 
               onPress={() => {
-                saveSession(mode, time, marks);
+                saveSession(mode, elapsedTime, marks);
                 reset(); // Reinicia automáticamente después de guardar
               }}
             >

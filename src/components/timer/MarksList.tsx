@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS, SPACING } from '../../constants/theme';
 import { Mark } from '../../hooks/useTimer';
 import { formatTime } from '../../utils/timeFormat';
+import { useSettings } from '../../hooks/useSettings';
 
 interface Props {
   marks: Mark[];
 }
 
-export const MarksList = ({ marks }: Props) => {
+export const MarksList = memo(({ marks }: Props) => {
   const [isAscending, setIsAscending] = useState(false);
+  const { showMs } = useSettings();
   const displayedMarks = isAscending ? [...marks].reverse() : marks;
 
   if (marks.length === 0) return null;
@@ -30,14 +32,14 @@ export const MarksList = ({ marks }: Props) => {
         renderItem={({ item }) => (
           <View style={styles.item}>
             <Text style={styles.label}>Marca {item.id}</Text>
-            <Text style={styles.time}>{formatTime(item.time)}</Text>
+            <Text style={styles.time}>{formatTime(item.time, showMs)}</Text>
           </View>
         )}
         showsVerticalScrollIndicator={false}
       />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

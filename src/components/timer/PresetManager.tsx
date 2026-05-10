@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { View, Text, TouchableOpacity, Modal, TextInput, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { COLORS, SPACING, SHADOWS } from '../../constants/theme';
 
@@ -13,7 +13,7 @@ const PRESETS = [
   { label: '1m', value: 60000 },
 ];
 
-export const PresetManager = ({ onSelectTime, isDisabled }: Props) => {
+export const PresetManager = memo(({ onSelectTime, isDisabled }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [customMin, setCustomMin] = useState('');
   const [customSec, setCustomSec] = useState('');
@@ -109,7 +109,7 @@ export const PresetManager = ({ onSelectTime, isDisabled }: Props) => {
       </Modal>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   wrapper: { flex: 1, alignItems: 'center', paddingTop: SPACING.l },
