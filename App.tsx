@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 import { SettingsProvider, useSettings } from './src/hooks/useSettings';
 import { COLORS } from './src/constants/theme';
+import { HistoryProvider } from './src/hooks/useHistory';
 
 
 function RootNavigation() {
@@ -24,10 +25,12 @@ function RootNavigation() {
 export default function App() {
   return (
     <SettingsProvider>
-      <NavigationContainer>
-        <StatusBar style="dark" />
-        <RootNavigation />
-      </NavigationContainer>
+      <HistoryProvider>
+        <NavigationContainer>
+          <StatusBar style="dark" />
+          <RootNavigation />
+        </NavigationContainer>
+      </HistoryProvider>
     </SettingsProvider>
   );
 }

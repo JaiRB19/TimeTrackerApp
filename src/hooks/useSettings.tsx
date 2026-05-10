@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 
 interface SettingsContextData {
   keepAwake: boolean;
@@ -14,7 +15,7 @@ const STORAGE_KEY = '@time_tracker_settings';
 const SettingsContext = createContext<SettingsContextData>({} as SettingsContextData);
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
-  const [keepAwake, setKeepAwake] = useState(false); 
+  const [keepAwake, setKeepAwake] = useState(false); // Desactivado por defecto
   const [showMs, setShowMs] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,13 +54,24 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     saveSettings();
   }, [keepAwake, showMs, isLoading]);
 
-  // Manejo del hardware (Keep Awake)
+  // 3. Manejo del hardware (Keep Awake) - CORREGIDO PARA WEB
   useEffect(() => {
-    if (keepAwake) {
-      activateKeepAwakeAsync();
-    } else {
-      deactivateKeepAwake();
-    }
+    const handleKeepAwake = async () => {
+      try {
+        if (keepAwake) {
+          await activateKeepAwakeAsync();
+        } else {
+          await deactivateKeepAwake();
+        }
+      } catch (error) {
+        // Silenciamos el error en Web para que no rompa la app
+        if (Platform.OS !== 'web') {
+          console.warn("KeepAwake no disponible:", error);
+        }
+      }
+    };
+
+    handleKeepAwake();
   }, [keepAwake]);
 
   const toggleKeepAwake = (value: boolean) => setKeepAwake(value);

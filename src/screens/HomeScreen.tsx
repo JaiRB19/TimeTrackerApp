@@ -9,6 +9,7 @@ import { useSettings } from '../hooks/useSettings';
 import { ModeSelector } from '../components/timer/ModeSelector';
 import { MarksList } from '../components/timer/MarksList';
 import { PresetManager } from '../components/timer/PresetManager';
+import { useHistory } from '../hooks/useHistory';
 
 export default function HomeScreen() {
   const { 
@@ -18,6 +19,7 @@ export default function HomeScreen() {
 
   const isTimerZero = mode === 'timer' && time === 0;
   const { showMs } = useSettings();
+  const { saveSession } = useHistory();
 
   return (
     <View style={styles.container}>
@@ -66,10 +68,23 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* CONTROLES DE PAUSA / FIN DE SESIÓN */}
         {!isRunning && time > 0 && (
-          <TouchableOpacity style={styles.resetButton} onPress={reset}>
-            <Text style={styles.resetText}>Reiniciar</Text>
-          </TouchableOpacity>
+          <View style={styles.pausedControlsRow}>
+            <TouchableOpacity style={styles.resetButton} onPress={reset}>
+              <Text style={styles.resetText}>Reiniciar</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.saveButton} 
+              onPress={() => {
+                saveSession(mode, time, marks);
+                reset(); // Reinicia automáticamente después de guardar
+              }}
+            >
+              <Text style={styles.saveText}>Guardar Sesión</Text>
+            </TouchableOpacity>
+          </View>
         )}
       </View>
 
@@ -94,5 +109,8 @@ const styles = StyleSheet.create({
   secondaryButton: { backgroundColor: COLORS.surface, paddingHorizontal: SPACING.l, borderRadius: 16, justifyContent: 'center', borderWidth: 1, borderColor: COLORS.border },
   secondaryButtonText: { color: COLORS.text, fontSize: 16, fontWeight: '600' },
   resetButton: { marginTop: SPACING.l, alignSelf: 'center' },
-  resetText: { color: COLORS.textSecondary, fontSize: 16, fontWeight: '600' }
+  resetText: { color: COLORS.textSecondary, fontSize: 16, fontWeight: '600' },
+  pausedControlsRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: SPACING.xl, marginTop: SPACING.l },
+  saveButton: { backgroundColor: COLORS.surface, paddingVertical: SPACING.s, paddingHorizontal: SPACING.l, borderRadius: 12, borderWidth: 1, borderColor: COLORS.border, ...SHADOWS.small },
+  saveText: { color: COLORS.primary, fontSize: 16, fontWeight: '700' },
 });
