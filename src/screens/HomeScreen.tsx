@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS, SPACING, SHADOWS } from '../constants/theme';
 import { useTimer } from '../hooks/useTimer';
 import { formatTime } from '../utils/timeFormat';
+import { useSettings } from '../hooks/useSettings';
 
 // Importamos nuestros nuevos módulos limpios
 import { ModeSelector } from '../components/timer/ModeSelector';
@@ -16,6 +17,7 @@ export default function HomeScreen() {
   } = useTimer();
 
   const isTimerZero = mode === 'timer' && time === 0;
+  const { showMs } = useSettings();
 
   return (
     <View style={styles.container}>
@@ -28,7 +30,7 @@ export default function HomeScreen() {
 
       {/* 2. DISPLAY */}
       <View style={styles.timerContainer}>
-        <Text style={styles.timeText}>{formatTime(time)}</Text>
+        <Text style={styles.timeText}>{formatTime(time, showMs)}</Text>
       </View>
 
       {/* 3. ÁREA DINÁMICA (Marcas o Presets) */}
