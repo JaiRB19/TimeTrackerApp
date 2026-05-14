@@ -1,60 +1,215 @@
-# ⏱️ Time Tracker
+<p align="center">
+  <img src="./assets/icon.png" width="140" height="140" />
+</p>
 
-![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
-![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+<h1 align="center">
+  ⏱️ Time Tracker
+</h1>
 
-**Time Tracker** es una aplicación móvil de alto rendimiento diseñada para la precisión y la simplicidad. Construida con un enfoque minimalista, permite a los usuarios gestionar cronómetros y temporizadores con una precisión absoluta mediante el uso de sincronización con el reloj del sistema.
+<p align="center">
+  Cronómetro y temporizador moderno enfocado en precisión, productividad y experiencia premium.
+</p>
 
-Este proyecto forma parte de mi portafolio profesional, demostrando habilidades en arquitectura modular, gestión de estado global y persistencia de datos nativa.
+<p align="center">
 
-## ✨ Características Principales
+  <img src="https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white" />
+  <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Release-v1.0-D946EF?style=for-the-badge&logo=rocket" />
 
-- **Dual Mode:** Intercambio fluido entre Cronómetro (Stopwatch) y Temporizador (Countdown).
-- **Precisión Atómica:** Motor de tiempo basado en `Date.now()` para evitar el desfasaje acumulado de los intervalos estándar de JavaScript.
-- **Gestión de Presets:** Configuración rápida de tiempos comunes y selector personalizado mediante modal optimizado.
-- **Historial Detallado:** Registro persistente con métricas de "Tiempo Real" vs "Tiempo Productivo", marcas y ordenación dinámica.
-- **Ajustes de Usuario:** Control global sobre la visibilidad de milisegundos y prevención de bloqueo de pantalla (`Keep Awake`).
-- **Diseño Premium:** Interfaz limpia con tipografía tabular, feedback háptico y notificaciones locales integradas.
-
-## 🛠️ Tech Stack
-
-- **Framework:** [React Native](https://reactnative.dev/) con [Expo](https://expo.dev/) (SDK 51+).
-- **Lenguaje:** TypeScript para un desarrollo robusto y tipado.
-- **Navegación:** React Navigation (Bottom Tabs).
-- **Estado:** Context API para una gestión de estado global ligera y eficiente.
-- **Persistencia:** AsyncStorage para el almacenamiento local de preferencias e historial.
-- **Feedback:** Expo Haptics y Expo Notifications para una experiencia inmersiva.
-
-## 🚀 Instalación y Uso
-
-Asegúrate de tener instalado [Node.js](https://nodejs.org/) y el [Expo Go](https://expo.dev/go) en tu dispositivo móvil.
-
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/JaiRB19/TimeTrackerApp.git
-   ```
-
-2. **Instalar dependencias:**
-   ```bash
-   npm install
-   ```
-
-3. **Iniciar el proyecto:**
-   ```bash
-   npx expo start
-   ```
-
-## 🗺️ Roadmap: Smart History & Evolution
-
-- [ ] **Smart History (Análisis de Eficiencia):**
-    - Implementación de gráficas semanales para visualizar picos de productividad.
-    - Sistema de etiquetas (Trabajo, Estudio, Deporte) para categorizar sesiones.
-    - Cálculo automático de "Porcentaje de Enfoque" basado en la comparación de tiempo real vs. tiempo trackeado.
-- [ ] **Home Widgets:** Widgets para Android e iOS que permitan ver el temporizador activo desde la pantalla de inicio.
-- [ ] **Exportación Pro:** Generación de reportes mensuales en formato CSV o PDF para control de horas.
-- [ ] **Advanced UI:** Micro-interacciones complejas con `React Native Reanimated` y soporte completo para Dark Mode.
+</p>
 
 ---
 
-Desarrollado con ❤️ por [Jai](https://github.com/JaiRB19)
+## ✨ Overview
+
+**Time Tracker** es una aplicación móvil de alto rendimiento diseñada para la precisión y la simplicidad.
+
+Construida bajo una filosofía minimalista y *local-first*, permite gestionar cronómetros y temporizadores con sincronización basada en el reloj real del sistema utilizando `Date.now()`.
+
+El proyecto forma parte de mi portafolio profesional y demuestra habilidades en:
+
+- Arquitectura modular
+- Gestión de estado global
+- Persistencia nativa
+- Diseño UX premium
+- Optimización de rendimiento en React Native
+
+---
+
+# ⚡ Features
+
+## ⏱️ Dual Mode Engine
+Intercambio fluido entre:
+
+- Stopwatch
+- Countdown Timer
+
+Con precisión basada en tiempo real.
+
+---
+
+## 🎯 Precisión Atómica
+Motor de tiempo optimizado utilizando:
+
+```ts
+Date.now()
+```
+
+Esto evita:
+- drift acumulado
+- desincronización
+- pérdida de precisión en background
+
+---
+
+## 🚩 Smart Session Tracking
+
+- Registro ilimitado de marcas
+- Historial persistente
+- Métricas de eficiencia
+- Comparación:
+  - Tiempo Real
+  - Tiempo Productivo
+
+---
+
+## 🎨 Premium Experience
+
+- Interfaz minimalista
+- Tipografía tabular
+- Feedback háptico
+- Notificaciones locales
+- Cloudy Sky Theme
+- Acentos dinámicos azul/magenta
+
+---
+
+## ⚙️ User Controls
+
+- Toggle de milisegundos
+- Keep Awake
+- Gestión de presets
+- Selector personalizado
+- Persistencia automática
+
+---
+
+# 🛠️ Tech Stack
+
+| Tecnología | Uso |
+|---|---|
+| React Native | Mobile Framework |
+| Expo SDK 51+ | Runtime & Tooling |
+| TypeScript | Static Typing |
+| React Navigation | Navigation System |
+| Context API | Global State |
+| AsyncStorage | Local Persistence |
+| Expo Haptics | Tactile Feedback |
+| Expo Notifications | Local Notifications |
+
+---
+
+# 🚀 Getting Started
+
+Asegúrate de tener instalado:
+
+- Node.js
+- Expo Go
+
+---
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/JaiRB19/TimeTrackerApp.git
+```
+
+---
+
+## 2. Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## 3. Run Development Server
+
+```bash
+npx expo start
+```
+
+---
+
+# 🗺️ Roadmap
+
+## 📊 Smart History & Analytics
+
+- [ ] Gráficas semanales de productividad
+- [ ] Análisis de eficiencia
+- [ ] Porcentaje automático de enfoque
+- [ ] Comparativa entre tiempo real y tiempo trackeado
+
+---
+
+## 🏷️ Session Categories
+
+- [ ] Trabajo
+- [ ] Estudio
+- [ ] Deporte
+- [ ] Categorías personalizadas
+
+---
+
+## 🧩 Widgets
+
+- [ ] Android Home Widgets
+- [ ] iOS Widgets
+- [ ] Live Session Tracking
+
+---
+
+## 📄 Export System
+
+- [ ] Exportación CSV
+- [ ] Exportación PDF
+- [ ] Reportes mensuales
+
+---
+
+## 🎨 Advanced UI
+
+- [ ] React Native Reanimated
+- [ ] Micro-interacciones avanzadas
+- [ ] Full Dark Mode
+- [ ] Dynamic Themes
+
+---
+
+# 🔒 Privacy First
+
+Time Tracker adopta una filosofía:
+
+- ✅ Local First
+- ✅ Sin cuentas
+- ✅ Sin tracking invasivo
+- ✅ Sin servidores externos
+
+Todos los datos permanecen en el dispositivo del usuario.
+
+---
+
+# 📦 Release
+
+Consulta las novedades y cambios recientes:
+
+- [Release Notes](https://github.com/JaiRB19/TimeTrackerApp/releases)
+
+---
+
+<p align="center">
+  Desarrollado con precisión por
+  <a href="https://github.com/JaiRB19">Jai</a>
+</p>
