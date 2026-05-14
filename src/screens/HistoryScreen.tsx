@@ -145,6 +145,13 @@ export default function HistoryScreen() {
   }, []);
 
   const handleDeleteSession = useCallback((id: string) => {
+    if (Platform.OS === 'web') {
+      if (window.confirm('¿Estás seguro de que quieres eliminar esta sesión?')) {
+        deleteSession(id);
+        setModalVisible(false);
+      }
+      return;
+    }
     Alert.alert(
       'Eliminar sesión',
       '¿Estás seguro de que quieres eliminar esta sesión?',
@@ -169,6 +176,12 @@ export default function HistoryScreen() {
   const dockClearance = dockPadding + 88; // 72px capsula + 16px extra margen
 
   const handleClear = () => {
+    if (Platform.OS === 'web') {
+      if (window.confirm('¿Estás seguro? Esta acción no se puede deshacer.')) {
+        clearHistory();
+      }
+      return;
+    }
     Alert.alert(
       'Borrar historial',
       '¿Estás seguro? Esta acción no se puede deshacer.',

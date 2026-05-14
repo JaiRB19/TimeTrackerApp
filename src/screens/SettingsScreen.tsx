@@ -69,10 +69,18 @@ export default function SettingsScreen() {
       if (supported) {
         await Linking.openURL(url);
       } else {
-        Alert.alert('Error', 'No se puede abrir el enlace en este dispositivo.');
+        if (Platform.OS === 'web') {
+          alert('No se puede abrir el enlace en este dispositivo.');
+        } else {
+          Alert.alert('Error', 'No se puede abrir el enlace en este dispositivo.');
+        }
       }
     } catch (error) {
-      Alert.alert('Error', 'Ocurrió un problema al intentar abrir la política de privacidad.');
+      if (Platform.OS === 'web') {
+        alert('Ocurrió un problema al intentar abrir la política de privacidad.');
+      } else {
+        Alert.alert('Error', 'Ocurrió un problema al intentar abrir la política de privacidad.');
+      }
     }
   };
 
