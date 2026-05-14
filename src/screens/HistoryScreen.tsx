@@ -42,80 +42,79 @@ const SessionDetailModal = React.memo(({
       onRequestClose={onClose}
       statusBarTranslucent={true}
     >
-      <TouchableOpacity 
-        style={styles.modalOverlay} 
-        activeOpacity={1} 
-        onPress={onClose}
-      >
-        <TouchableWithoutFeedback>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <View style={[styles.modeChip, isStopwatch ? styles.chipBlue : styles.chipMagenta]}>
-                <Text style={[styles.modeChipText, isStopwatch ? styles.chipTextBlue : styles.chipTextMagenta]}>
-                  {isStopwatch ? 'Cronómetro' : 'Temporizador'}
-                </Text>
-              </View>
-              <View style={styles.headerActions}>
-                <TouchableOpacity onPress={() => onDelete(session.id)} style={styles.deleteBtn}>
-                  <Ionicons name="trash-outline" size={20} color={COLORS.danger} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-                  <Ionicons name="close" size={24} color={COLORS.textSecondary} />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <Text style={styles.modalDate}>{new Date(session.date).toLocaleString()}</Text>
-
-            <View style={styles.statsContainer}>
-              <View style={styles.statBox}>
-                <Text style={styles.statLabel}>Tiempo Trackeado</Text>
-                <Text style={styles.statValue}>{formatTime(session.duration, showMs)}</Text>
-              </View>
-              <View style={styles.statBox}>
-                <Text style={styles.statLabel}>Tiempo Real</Text>
-                <Text style={[styles.statValue, { color: COLORS.primary }]}>
-                  {formatTime(session.realDuration || 0, showMs)}
-                </Text>
-              </View>
-            </View>
-
-            {session.marks && session.marks.length > 0 && (
-              <View style={styles.marksSection}>
-                <View style={styles.marksHeaderRow}>
-                  <Text style={styles.sectionTitle}>Marcas ({session.marks.length})</Text>
-                  <TouchableOpacity 
-                    style={styles.sortBtn} 
-                    onPress={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
-                  >
-                    <Text style={styles.sortBtnText}>
-                      {sortOrder === 'desc' ? 'Recientes' : 'Antiguas'}
-                    </Text>
-                    <Ionicons 
-                      name={sortOrder === 'desc' ? 'arrow-down' : 'arrow-up'} 
-                      size={14} 
-                      color={COLORS.primary} 
-                    />
-                  </TouchableOpacity>
-                </View>
-                
-                <ScrollView showsVerticalScrollIndicator={false}>
-                  {sortedMarks.map((mark) => (
-                    <View key={mark.id} style={styles.markItem}>
-                      <Text style={styles.markIndex}>#{mark.id}</Text>
-                      <Text style={styles.markTime}>{formatTime(mark.time, showMs)}</Text>
-                    </View>
-                  ))}
-                </ScrollView>
-              </View>
-            )}
-
-            <TouchableOpacity style={styles.bottomCloseBtn} onPress={onClose}>
-              <Text style={styles.bottomCloseText}>Cerrar</Text>
-            </TouchableOpacity>
-          </View>
+      <View style={styles.modalOverlay}>
+        <TouchableWithoutFeedback onPress={onClose}>
+          <View style={StyleSheet.absoluteFill} />
         </TouchableWithoutFeedback>
-      </TouchableOpacity>
+        <View style={styles.modalContent}>
+          <View style={styles.modalHeader}>
+            <View style={[styles.modeChip, isStopwatch ? styles.chipBlue : styles.chipMagenta]}>
+              <Text style={[styles.modeChipText, isStopwatch ? styles.chipTextBlue : styles.chipTextMagenta]}>
+                {isStopwatch ? 'Cronómetro' : 'Temporizador'}
+              </Text>
+            </View>
+            <View style={styles.headerActions}>
+              <TouchableOpacity onPress={() => onDelete(session.id)} style={styles.deleteBtn}>
+                <Ionicons name="trash-outline" size={20} color={COLORS.danger} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+                <Ionicons name="close" size={24} color={COLORS.textSecondary} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* ── FIJO: Fecha + Stats ─────────────────────────── */}
+          <Text style={styles.modalDate}>{new Date(session.date).toLocaleString()}</Text>
+
+          <View style={styles.statsContainer}>
+            <View style={styles.statBox}>
+              <Text style={styles.statLabel}>Tiempo Trackeado</Text>
+              <Text style={styles.statValue}>{formatTime(session.duration, showMs)}</Text>
+            </View>
+            <View style={styles.statBox}>
+              <Text style={styles.statLabel}>Tiempo Real</Text>
+              <Text style={[styles.statValue, { color: COLORS.primary }]}>
+                {formatTime(session.realDuration || 0, showMs)}
+              </Text>
+            </View>
+          </View>
+
+          {/* ── DINÁMICO: Solo la lista de marcas scrollea ──── */}
+          {session.marks && session.marks.length > 0 && (
+            <View style={styles.marksSection}>
+              <View style={styles.marksHeaderRow}>
+                <Text style={styles.sectionTitle}>Marcas ({session.marks.length})</Text>
+                <TouchableOpacity 
+                  style={styles.sortBtn} 
+                  onPress={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
+                >
+                  <Text style={styles.sortBtnText}>
+                    {sortOrder === 'desc' ? 'Recientes' : 'Antiguas'}
+                  </Text>
+                  <Ionicons 
+                    name={sortOrder === 'desc' ? 'arrow-down' : 'arrow-up'} 
+                    size={14} 
+                    color={COLORS.primary} 
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
+                {sortedMarks.map((mark) => (
+                  <View key={mark.id} style={styles.markItem}>
+                    <Text style={styles.markIndex}>#{mark.id}</Text>
+                    <Text style={styles.markTime}>{formatTime(mark.time, showMs)}</Text>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+
+          <TouchableOpacity style={styles.bottomCloseBtn} onPress={onClose}>
+            <Text style={styles.bottomCloseText}>Cerrar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </Modal>
   );
 });
@@ -471,7 +470,7 @@ const styles = StyleSheet.create({
     color: COLORS.text,
   },
   marksSection: {
-    flexShrink: 1,
+    maxHeight: 220,
     marginTop: SPACING.m,
     marginBottom: SPACING.l,
   },
