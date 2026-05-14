@@ -7,12 +7,14 @@ export interface TimerSession {
   date: number; // Fecha en milisegundos (Date.now())
   mode: TimerMode;
   duration: number; // Tiempo total registrado
+  realDuration: number; // Tiempo real transcurrido
   marks: Mark[];
 }
 
 interface HistoryContextData {
   sessions: TimerSession[];
-  saveSession: (mode: TimerMode, duration: number, marks: Mark[]) => void;
+  saveSession: (mode: TimerMode, duration: number, realDuration: number, marks: Mark[]) => void;
+  deleteSession: (id: string) => void;
   clearHistory: () => void;
 }
 
@@ -36,12 +38,13 @@ export const HistoryProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   // Guardar nueva sesión
-  const saveSession = async (mode: TimerMode, duration: number, marks: Mark[]) => {
+  const saveSession = async (mode: TimerMode, duration: number, realDuration: number, marks: Mark[]) => {
     const newSession: TimerSession = {
       id: Math.random().toString(36).substr(2, 9) + Date.now().toString(36),
       date: Date.now(),
       mode,
       duration,
+      realDuration,
       marks,
     };
 
@@ -66,8 +69,19 @@ export const HistoryProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Eliminar una sola sesión
+  const deleteSession = async (id: string) => {
+    const updatedSessions = sessions.filter(session => session.id !== id);
+    setSessions(updatedSessions);
+    try {
+      await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(updatedSessions));
+    } catch (e) {
+      console.error("Error eliminando sesión", e);
+    }
+  };
+
   return (
-    <HistoryContext.Provider value={{ sessions, saveSession, clearHistory }}>
+    <HistoryContext.Provider value={{ sessions, saveSession, deleteSession, clearHistory }}>
       {children}
     </HistoryContext.Provider>
   );

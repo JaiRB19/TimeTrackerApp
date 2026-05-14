@@ -13,9 +13,9 @@ Este proyecto forma parte de mi portafolio profesional, demostrando habilidades 
 - **Dual Mode:** Intercambio fluido entre Cronómetro (Stopwatch) y Temporizador (Countdown).
 - **Precisión Atómica:** Motor de tiempo basado en `Date.now()` para evitar el desfasaje acumulado de los intervalos estándar de JavaScript.
 - **Gestión de Presets:** Configuración rápida de tiempos comunes y selector personalizado mediante modal optimizado.
-- **Historial de Sesiones:** Registro persistente de cada actividad, incluyendo fecha, modo, duración y marcas registradas.
+- **Historial Detallado:** Registro persistente con métricas de "Tiempo Real" vs "Tiempo Productivo", marcas y ordenación dinámica.
 - **Ajustes de Usuario:** Control global sobre la visibilidad de milisegundos y prevención de bloqueo de pantalla (`Keep Awake`).
-- **Diseño Premium:** Interfaz limpia con tipografía tabular para evitar saltos visuales en el contador y acentos en Magenta dinámico.
+- **Diseño Premium:** Interfaz limpia con tipografía tabular, feedback háptico y notificaciones locales integradas.
 
 ## 🛠️ Tech Stack
 
@@ -24,7 +24,7 @@ Este proyecto forma parte de mi portafolio profesional, demostrando habilidades 
 - **Navegación:** React Navigation (Bottom Tabs).
 - **Estado:** Context API para una gestión de estado global ligera y eficiente.
 - **Persistencia:** AsyncStorage para el almacenamiento local de preferencias e historial.
-- **Hooks Personalizados:** Lógica de negocio aislada en `useTimer`, `useHistory` y `useSettings`.
+- **Feedback:** Expo Haptics y Expo Notifications para una experiencia inmersiva.
 
 ## 🚀 Instalación y Uso
 
@@ -33,7 +33,6 @@ Asegúrate de tener instalado [Node.js](https://nodejs.org/) y el [Expo Go](http
 1. **Clonar el repositorio:**
    ```bash
    git clone https://github.com/JaiRB19/TimeTrackerApp.git
-   cd TimeTrackerApp
    ```
 
 2. **Instalar dependencias:**
@@ -46,14 +45,15 @@ Asegúrate de tener instalado [Node.js](https://nodejs.org/) y el [Expo Go](http
    npx expo start
    ```
 
-4. **Escanear el código QR** con la app de Expo Go para visualizar en tu dispositivo.
+## 🗺️ Roadmap: Smart History & Evolution
 
-## 🗺️ Roadmap V2 (Próximamente)
-
-- [ ] **Feedback Háptico:** Integración de `expo-haptics` para respuestas táctiles en cada interacción.
-- [ ] **Notificaciones Locales:** Alertas sonoras y visuales cuando un temporizador finaliza en segundo plano.
-- [ ] **Visualización de Datos:** Gráficas de rendimiento semanal basadas en el historial de sesiones.
-- [ ] **Animaciones Avanzadas:** Transiciones fluidas con `React Native Reanimated`.
+- [ ] **Smart History (Análisis de Eficiencia):**
+    - Implementación de gráficas semanales para visualizar picos de productividad.
+    - Sistema de etiquetas (Trabajo, Estudio, Deporte) para categorizar sesiones.
+    - Cálculo automático de "Porcentaje de Enfoque" basado en la comparación de tiempo real vs. tiempo trackeado.
+- [ ] **Home Widgets:** Widgets para Android e iOS que permitan ver el temporizador activo desde la pantalla de inicio.
+- [ ] **Exportación Pro:** Generación de reportes mensuales en formato CSV o PDF para control de horas.
+- [ ] **Advanced UI:** Micro-interacciones complejas con `React Native Reanimated` y soporte completo para Dark Mode.
 
 ---
 

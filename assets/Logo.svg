@@ -1,0 +1,152 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="140" fill="url(#bg)" />
+
+  <!-- Ambient Glow -->
+  <circle
+    cx="256"
+    cy="256"
+    r="170"
+    fill="url(#glow)"
+    opacity="0.35"
+  />
+
+  <!-- Stopwatch Top Button -->
+  <rect
+    x="226"
+    y="64"
+    width="60"
+    height="30"
+    rx="15"
+    fill="white"
+    opacity="0.95"
+  />
+
+  <!-- Stopwatch Connector -->
+  <rect
+    x="242"
+    y="90"
+    width="28"
+    height="24"
+    rx="12"
+    fill="white"
+    opacity="0.9"
+  />
+
+  <!-- Main Full Ring -->
+  <circle
+    cx="256"
+    cy="256"
+    r="140"
+    stroke="url(#ring)"
+    stroke-width="30"
+  />
+
+  <!-- Secondary Accent Arc -->
+  <path
+    d="
+      M 358 160
+      A 120 120 0 0 1 392 256
+    "
+    stroke="url(#accent)"
+    stroke-width="18"
+    stroke-linecap="round"
+    opacity="0.9"
+  />
+
+  <!-- Minimal Clock Hand -->
+  <path
+    d="M256 256 L312 204"
+    stroke="white"
+    stroke-width="24"
+    stroke-linecap="round"
+  />
+
+  <!-- Hidden T Stem -->
+  <path
+    d="M256 188 V308"
+    stroke="white"
+    stroke-width="18"
+    stroke-linecap="round"
+    opacity="0.95"
+  />
+
+  <!-- Center Core -->
+  <circle
+    cx="256"
+    cy="256"
+    r="20"
+    fill="white"
+  />
+
+  <!-- Soft Reflection -->
+  <ellipse
+    cx="200"
+    cy="180"
+    rx="90"
+    ry="42"
+    fill="white"
+    opacity="0.06"
+    transform="rotate(-25 200 180)"
+  />
+
+  <!-- Definitions -->
+  <defs>
+
+    <!-- Background Gradient -->
+    <linearGradient
+      id="bg"
+      x1="40"
+      y1="20"
+      x2="470"
+      y2="500"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#2563EB"/>
+      <stop offset="0.5" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#D946EF"/>
+    </linearGradient>
+
+    <!-- Main Ring -->
+    <linearGradient
+      id="ring"
+      x1="120"
+      y1="120"
+      x2="380"
+      y2="380"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="white"/>
+      <stop offset="1" stop-color="#E9D5FF"/>
+    </linearGradient>
+
+    <!-- Accent -->
+    <linearGradient
+      id="accent"
+      x1="320"
+      y1="140"
+      x2="400"
+      y2="260"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#C4B5FD"/>
+    </linearGradient>
+
+    <!-- Glow -->
+    <radialGradient
+      id="glow"
+      cx="0"
+      cy="0"
+      r="1"
+      gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(256 256) rotate(90) scale(170)"
+    >
+      <stop stop-color="white"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+
+  </defs>
+
+</svg>

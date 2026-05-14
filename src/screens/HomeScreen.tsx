@@ -16,7 +16,7 @@ const INNER_DOCK_HEIGHT = 68;
 
 export default function HomeScreen() {
   const {
-    time, elapsedTime, isRunning, marks, mode, switchMode,
+    time, elapsedTime, realDuration, isRunning, marks, mode, switchMode,
     setCountdownTime, addMark, toggle, reset, initialTime
   } = useTimer();
 
@@ -66,8 +66,8 @@ export default function HomeScreen() {
             </Text>
           </View>
 
-          {/* Controles de sesión (solo cuando está pausado con tiempo) */}
-          {!isRunning && time > 0 && (
+          {/* Controles de sesión (solo cuando está pausado con tiempo trackeado) */}
+          {!isRunning && elapsedTime > 0 && (
             <View style={styles.sessionControls}>
               <TouchableOpacity style={styles.resetBtn} onPress={reset} activeOpacity={0.7}>
                 <Ionicons name="refresh" size={15} color={COLORS.textSecondary} />
@@ -75,7 +75,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.saveBtn, SHADOWS.soft]}
-                onPress={() => { saveSession(mode, elapsedTime, marks); reset(); }}
+                onPress={() => { saveSession(mode, elapsedTime, realDuration, marks); reset(); }}
                 activeOpacity={0.8}
               >
                 <Ionicons name="checkmark-circle" size={15} color={COLORS.success} />
@@ -90,7 +90,7 @@ export default function HomeScreen() {
       {/* ── ÁREA DINÁMICA (Scroll interno) ───────────────── */}
       {/* paddingBottom asegura que el contenido no se esconda detrás del dock */}
       <View style={[styles.dynamicArea, { paddingBottom: scrollPadding }]}>
-        {mode === 'stopwatch'
+        {mode === 'stopwatch' || marks.length > 0
           ? <MarksList marks={marks} />
           : <PresetManager
               onSelectTime={setCountdownTime}
@@ -101,8 +101,8 @@ export default function HomeScreen() {
 
       {/* ── DOCK ANCLADO (absoluto, siempre visible) ────────── */}
       <View style={[styles.dock, { bottom: dockBottom, height: INNER_DOCK_HEIGHT }]}>
-        {/* Botón de Marca (solo cronómetro corriendo) */}
-        {mode === 'stopwatch' && isRunning && (
+        {/* Botón de Marca (activo en cualquier modo corriendo) */}
+        {isRunning && (
           <TouchableOpacity
             style={[styles.markBtn, SHADOWS.soft]}
             onPress={addMark}

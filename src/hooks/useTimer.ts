@@ -24,6 +24,7 @@ export const useTimer = () => {
   const markIdCounterRef = useRef<number>(1);
   const appState = useRef(AppState.currentState);
   const notificationIdRef = useRef<string | null>(null);
+  const sessionStartRef = useRef<number | null>(null);
 
   const cancelNotification = async () => {
     const id = notificationIdRef.current;
@@ -70,8 +71,11 @@ export const useTimer = () => {
     // Evitar que el temporizador inicie si está en 0
     if (mode === 'timer' && time <= 0) return; 
 
-    // Feedback táctil al iniciar
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+    if (sessionStartRef.current === null) {
+      sessionStartRef.current = Date.now();
+    }
 
     setIsRunning(true);
     startTimeRef.current = Date.now();
@@ -127,6 +131,7 @@ export const useTimer = () => {
     accumulatedTimeRef.current = 0;
     startTimeRef.current = 0;
     markIdCounterRef.current = 1;
+    sessionStartRef.current = null;
     cancelNotification();
   }, []);
 
@@ -138,6 +143,7 @@ export const useTimer = () => {
     setInitialTime(0);
     setMarks([]);
     accumulatedTimeRef.current = 0;
+    sessionStartRef.current = null;
     cancelNotification();
   }, [isRunning, pause]);
 
@@ -150,13 +156,13 @@ export const useTimer = () => {
   }, [isRunning, pause]);
 
   const addMark = useCallback(() => {
-    if (mode === 'timer') return; // Normalmente no se usan marcas en cuenta regresiva
-    
     // Feedback táctil al registrar una marca
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
-    setMarks(prev => [{ id: markIdCounterRef.current++, time }, ...prev]);
-  }, [time, mode]);
+    // Calculamos el tiempo transcurrido en lugar del tiempo restante para consistencia
+    const markTime = mode === 'stopwatch' ? time : initialTime - time;
+    setMarks(prev => [{ id: markIdCounterRef.current++, time: markTime }, ...prev]);
+  }, [time, mode, initialTime]);
 
   const toggle = useCallback(() => {
     isRunning ? pause() : start();
@@ -199,10 +205,12 @@ export const useTimer = () => {
 
   // Variable derivada para ocultar la complejidad del cálculo a la UI
   const elapsedTime = mode === 'stopwatch' ? time : initialTime - time;
+  const realDuration = sessionStartRef.current ? Date.now() - sessionStartRef.current : 0;
 
   return {
     time,
     elapsedTime,
+    realDuration,
     initialTime,
     mode,
     isRunning,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Switch, ScrollView, Platform } from 'react-native';
+import { View, Text, StyleSheet, Switch, ScrollView, Platform, Linking, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SPACING, RADIUS, SHADOWS } from '../constants/theme';
@@ -62,6 +62,20 @@ export default function SettingsScreen() {
     : Math.max(insets.bottom, 12) + 8;
   const dockClearance = dockPadding + 88; // 72px capsula + 16px extra margen
 
+  const handleOpenPrivacy = async () => {
+    const url = 'https://privacy-portal-rho.vercel.app/TimeTracker/index.html';
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert('Error', 'No se puede abrir el enlace en este dispositivo.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Ocurrió un problema al intentar abrir la política de privacidad.');
+    }
+  };
+
   return (
     <ScrollView
       style={styles.container}
@@ -111,6 +125,16 @@ export default function SettingsScreen() {
             <Ionicons name="person-outline" size={18} color={COLORS.textTertiary} />
             <Text style={styles.infoText}>Desarrollado por Jai</Text>
           </View>
+          <View style={styles.divider} />
+          <TouchableOpacity 
+            style={styles.infoRow} 
+            onPress={handleOpenPrivacy}
+            activeOpacity={0.6}
+          >
+            <Ionicons name="shield-checkmark-outline" size={18} color={COLORS.primary} />
+            <Text style={[styles.infoText, { color: COLORS.primary }]}>Política de Privacidad</Text>
+            <Ionicons name="chevron-forward" size={14} color={COLORS.primary} style={{ marginLeft: 'auto' }} />
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
